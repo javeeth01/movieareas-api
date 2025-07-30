@@ -1,17 +1,25 @@
- import express from 'express';
+import movie from "../models/movie.models.js";
  
  
 export const movieIndex = (req, res) => {
     res.send("GET request received for movies");
 };
 
-export const movieCreate = (req, res) => {
-    //create a movie
+export const movieCreate = async(req, res) => {
     //id, title, description 
-    console.log(req.body);
+    //validate the request body
 
-    return res.json(req.body);
-    
+   const newMovie = new movie ({
+        title: req.body.title,
+        desc: req.body.desc
+    });
+
+   try {
+     const movie = await newMovie.save()
+     return res.status(201).json(movie);
+   } catch (error) {
+     return res.status(400).json({ message: error.message });
+   }
 };
 
 export const movieUpdate = (req, res) => {
