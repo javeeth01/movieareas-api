@@ -5,6 +5,10 @@ import connectToDatabase from './lib/db.js';
 const app = express()
 const port = 3000
 
+//understand the middleware
+app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+
 //connect to the database
 
 connectToDatabase()
