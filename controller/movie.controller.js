@@ -10,11 +10,11 @@ export const movieIndex = async (req, res) => {
    }
 };
 
-export const movieCreate = async(req, res) => {
+export const movieCreate = async (req, res) => {
     //id, title, description 
     //validate the request body
 
-   const newMovie = new movie ({
+   const newMovie = new Movie ({
         title: req.body.title,
         desc: req.body.desc
     });
@@ -74,7 +74,17 @@ export const movieUpdate = async (req, res) => {
   } */
 };
 
-export const movieDelete = (req, res) => {
-    const movieId = req.params.id;
-    res.send(`DELETE request received for movies with ID: ${movieId}`);
+export const movieDelete = async (req, res) => {
+  const movieId = req.params.id;
+  const foundMovie = Movie.findOne({ _id: movieId })
+
+  try{
+    await Movie.findOne({ _id: movieId }).deleteOne();
+    res.json({message: "Movie deleted successfully"});
+  } catch (error) {
+    return res.status(404).json({ message: "Movie not found", error: error.message });
+  }
+
+
+  res.send('Movie deleted successfully');
 };
