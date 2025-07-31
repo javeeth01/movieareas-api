@@ -4,8 +4,16 @@ import { model } from "mongoose";
 
 //write the schema for the movie model
 const schema = new Schema({
-  title: String,
-  desc: String,
+  title:{
+    type: String,
+    required: true,
+    unique: true, // Ensure title is unique
+    trim: true, // Remove leading and trailing whitespace
+  },
+  desc: {
+    type: String,
+    required: true,
+  },
 });
 
 
